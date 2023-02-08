@@ -1208,7 +1208,7 @@ class Telegram
      * \param $request_location Boolean Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only
      * \return the requested button as Array.
      */
-    public function buildKeyboardButton($text, $request_contact = false, $request_location = false)
+    public function buildKeyboardButton($text, $request_contact = true, $request_location = false)
     {
         $replyMarkup = [
             'text'             => $text,
