@@ -7,7 +7,7 @@ $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
 $chat_id = $telegram->ChatID();
 $text=$telegram->Text();
 
-file_put_contents('users/step.txt','1');
+
 
 $orderTypes=["1 kg - 100000" , "2 kg - 200000" ,"3 kg - 300000","4 kg - 400000"];
 
@@ -23,8 +23,17 @@ switch($text){
         break;
     default: 
         if(in_array($text, $orderTypes)){
+            file_put_contents('users/massa.txt', $text);
         showAsk();
-        }
+        } else {
+            switch (file_get_contents('users/step.txt')){
+                case 'phone':
+                    file_put_contents('users/phone.txt', $text);
+                    showDelivryType();
+                    break;
+
+            }
+        };
         break;
     
 }
@@ -66,8 +75,22 @@ function showOrder(){
 function showAsk(){
     global $telegram , $chat_id;
 
+    file_put_contents('users/step.txt','phone');
+
     $option = array( 
         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
+    );
+    $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
+    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
+    $telegram->sendMessage($content);
+}
+function showDelivryType(){
+    global $telegram , $chat_id;
+
+    // file_put_contents('users/step.txt','phone');
+
+    $option = array( 
+        array($telegram->buildKeyboardButton("Tel yub" )), 
     );
     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
