@@ -7,6 +7,8 @@ $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
 $chat_id = $telegram->ChatID();
 $text=$telegram->Text();
 
+file_put_contents('users/step.txt','1');
+
 $orderTypes=["1 kg - 100000" , "2 kg - 200000" ,"3 kg - 300000","4 kg - 400000"];
 
 switch($text){
