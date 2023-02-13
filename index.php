@@ -67,7 +67,7 @@ function showstart(){
       global $telegram ,$chat_id ,$filePath; 
 
       file_put_contents($filePath ,'order');
-      
+
     $option = [ 
         array($telegram->buildKeyboardButton("Batafsil ma'lumot")),
        array($telegram->buildKeyboardButton("Zakaz berish"))
