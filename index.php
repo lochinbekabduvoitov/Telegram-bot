@@ -6,14 +6,16 @@ include 'Telegram.php';
 $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
 
 $data = $telegram->getData();
+$message= $data['message'];
 
-$telegram->sendMessage([
-    'chat_id' => $telegram->ChatID(),
-    'text' => json_encode($data, JSON_PRETTY_PRINT)
-]);
+// $telegram->sendMessage([
+//     'chat_id' => $telegram->ChatID(),
+//     'text' => json_encode($data, JSON_PRETTY_PRINT)
+// ]);
 
-$chat_id = $telegram->ChatID();
-$text=$telegram->Text();
+$chat_id = $message['chat']['id'];
+$text=$message['text'];
+$filePath='users/step.txt';
 
 
 
@@ -30,6 +32,15 @@ switch($text){
     case "Zakaz berish";
         showOrder();
         break;
+    case 'back':
+        switch (file_get_contents($filePath)){
+            case 'start':
+                break;
+            case 'order':
+                showstart();
+                break;
+        }
+        break;
     default: 
         if(in_array($text, $orderTypes)){
             file_put_contents('users/massa.txt', $text);
@@ -37,7 +48,11 @@ switch($text){
         } else {
             switch (file_get_contents('users/step.txt')){
                 case 'phone':
-                    file_put_contents('users/phone.txt', $text);
+                    if($message['contact']['phone_number'] != ''){
+                        file_put_contents('users/phone.txt', $message['contact']['phone_number']);
+                    }else{
+                        file_put_contents('users/phone.txt', $text);
+                    }
                     showDelivryType();
                     break;
 
@@ -49,8 +64,10 @@ switch($text){
 
 
 function showstart(){
-      global $telegram ,$chat_id;
+      global $telegram ,$chat_id ,$filePath; 
 
+      file_put_contents($filePath ,'order');
+      
     $option = [ 
         array($telegram->buildKeyboardButton("Batafsil ma'lumot")),
        array($telegram->buildKeyboardButton("Zakaz berish"))
@@ -75,35 +92,37 @@ function showOrder(){
 
     $option = [
         array($telegram->buildKeyboardButton("1 kg - 100000"), $telegram->buildKeyboardButton("2 kg - 200000")), 
-        array($telegram->buildKeyboardButton("3 kg - 300000"), $telegram->buildKeyboardButton("4 kg - 400000")), 
+        array($telegram->buildKeyboardButton("3 kg - 300000"), $telegram->buildKeyboardButton("4 kg - 400000")),
+        array($telegram->buildKeyboardButton("back")),
+        
     ];
     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Qancha zakaz berasiz hurmatli mijoz");
     $telegram->sendMessage($content);
 }
 function showAsk(){
-    global $telegram , $chat_id;
-
+    global $telegram , $chat_id ,$message;
+  
     file_put_contents('users/step.txt','phone');
 
     $option = array( 
         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
     );
     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
+    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Hajm tanlandi bog'lanish uchun raqamingiz yuboring");
     $telegram->sendMessage($content);
 }
 function showDelivryType(){
     global $telegram , $chat_id;
 
-    // file_put_contents('users/step.txt','phone');
+    file_put_contents('users/step.txt','location');
 
-    // $option = array( 
-    //     array($telegram->buildKeyboardButton("Tel yub" )), 
-    // );
-    // $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-    // $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
-    // $telegram->sendMessage($content);
+    $option = array( 
+        array($telegram->buildKeyboardButton("Lokatsiyangizni yuboring", $request_location= true )), 
+    );
+    $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
+    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Murojatingiz  muvaffaqqiyatli qabul qilindi");
+    $telegram->sendMessage($content);
 }
 
 
