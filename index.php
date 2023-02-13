@@ -6,6 +6,12 @@ include 'Telegram.php';
 $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
 
 $data = $telegram->getData();
+
+$telegram->sendMessage([
+    'chat_id' => $telegram->ChatID(),
+    'text' => json_encode($data, JSON_PRETTY_PRINT)
+]);
+
 $chat_id = $telegram->ChatID();
 $text=$telegram->Text();
 
