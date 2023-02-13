@@ -4,8 +4,11 @@
 include 'Telegram.php';
 
 $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
+
+$data = $telegram->getData();
 $chat_id = $telegram->ChatID();
 $text=$telegram->Text();
+
 
 
 
@@ -89,12 +92,12 @@ function showDelivryType(){
 
     // file_put_contents('users/step.txt','phone');
 
-    $option = array( 
-        array($telegram->buildKeyboardButton("Tel yub" )), 
-    );
-    $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
-    $telegram->sendMessage($content);
+    // $option = array( 
+    //     array($telegram->buildKeyboardButton("Tel yub" )), 
+    // );
+    // $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
+    // $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "hajm tanlandi Bog'lanish uchu raqamingiz yuboring");
+    // $telegram->sendMessage($content);
 }
 
 
