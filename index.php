@@ -73,7 +73,7 @@ function showstart(){
        array($telegram->buildKeyboardButton("Zakaz berish"))
     ];
     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Assalomu alaykum bot xush kelib siz");
+    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Assalomu alaykum bot xush kelibsiz !");
     $telegram->sendMessage($content);
 }
 function  showabout(){
