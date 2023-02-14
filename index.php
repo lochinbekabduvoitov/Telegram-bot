@@ -1,5 +1,6 @@
 <?php
 
+require_once 'db_connect.php';
 
 include 'Telegram.php';
 
@@ -125,70 +126,25 @@ function showDelivryType(){
     $telegram->sendMessage($content);
 }
 
+printAllData();
 
-// elseif
-// elseif($text =='Batafsil'){
 
-//     $option = array( 
-//          array($telegram->buildKeyboardButton("Saytga ulanish")) );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=false ,$resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Nima gap");
-//     $telegram->sendMessage($content);
-// }elseif($text =='Zakaz berish'){
 
-//     $option = array( 
-//          array($telegram->buildKeyboardButton("1-kg")),$telegram->buildKeyboardButton("2-kg") );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=false ,$resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Nima gap");
-//     $telegram->sendMessage($content);
-// }
+function printAllData(){
 
-// elseif($text == 'Batafsil'){
+    global $db;
 
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("Saytga ulanish")));
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Szi batafsil bo'limini bosdingiz lochinbek.uz");
-//     $telegram->sendMessage($content);
+   $result = $db->query("SELECT * FROM `users` ");
 
-// }elseif($text == 'Zakaz berish'){
+   while($arr = $result->fetch_assoc()){
 
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("1 kg - 100000"), $telegram->buildKeyboardButton("2 kg - 200000")), 
-//         array($telegram->buildKeyboardButton("3 kg - 300000"), $telegram->buildKeyboardButton("4 kg - 400000")), 
-//     );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Qancha zakaz berasiz");
-//     $telegram->sendMessage($content);
+    $natija = json_encode($arr, JSON_PRETTY_PRINT);
+    print $natija;
+    // if(isset($arr['data_json'])){
+    //     print $arr['data_json'];
+    //     print "<br/>";
+    // }
+   }
+}
 
-// }
-// elseif($text == '1 kg - 100000'){
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
-//     );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Bog'lanish uchu raqamingiz yuboring");
-//     $telegram->sendMessage($content);
-// }elseif($text == '2 kg - 200000'){
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
-//     );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Bog'lanish uchu raqamingiz yuboring");
-//     $telegram->sendMessage($content);
-// }elseif($text == '3 kg - 300000'){
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
-//     );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Bog'lanish uchu raqamingiz yuboring");
-//     $telegram->sendMessage($content);
-// }elseif($text == '4 kg - 400000'){
-//     $option = array( 
-//         array($telegram->buildKeyboardButton("Raqamni yuborish" , $request_contact= true)), 
-//     );
-//     $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-//     $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Bog'lanish uchu raqamingiz yuboring");
-//     $telegram->sendMessage($content);
-// }
 
