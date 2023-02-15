@@ -20,9 +20,9 @@ if($text == '/start'){
 }else{
     switch(getPage($chat_id)){
         case 'main';
-            if($text= "Batafsil ma'lumot"){
+            if($text == "Batafsil ma'lumot"){
                 showabout();
-            }elseif($text= "Zakaz berish"){
+            }elseif($text == "Zakaz berish"){
                 showOrder();
             }else{
                 chooseButton();
@@ -32,7 +32,7 @@ if($text == '/start'){
 }
 
 function showMain(){
-    global $telegram ,$chat_id ,$filePath; 
+    global $telegram ,$chat_id,$filePath; 
 
     setPage($chat_id, 'main');
 
@@ -41,7 +41,7 @@ function showMain(){
      array($telegram->buildKeyboardButton("Zakaz berish"))
   ];
   $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
-  $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Assalomu alaykum bot xush kelibsiz !");
+  $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Assalomu alaykum!");
   $telegram->sendMessage($content);
 }
 
