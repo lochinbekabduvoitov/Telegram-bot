@@ -1,6 +1,5 @@
 <?php
 
-
 require_once 'Telegram.php';
 
 require_once 'user.php';
@@ -18,15 +17,18 @@ $text=$message['text'];
 
 if($text == '/start'){
        showMain();
-}
-switch(getPage($chat_id)){
-    case 'main';
-        if($text= "Batafsil ma'lumot"){
-            showabout();
-        }elseif($text= "Zakaz berish"){
-            showOrder();
-        }
-        break;
+}else{
+    switch(getPage($chat_id)){
+        case 'main';
+            if($text= "Batafsil ma'lumot"){
+                showabout();
+            }elseif($text= "Zakaz berish"){
+                showOrder();
+            }else{
+                chooseButton();
+            }
+            break;
+    }
 }
 
 function showMain(){
@@ -41,4 +43,12 @@ function showMain(){
   $keyb = $telegram->buildKeyBoard($option, $onetime=true, $resize=true);
   $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => "Assalomu alaykum bot xush kelibsiz !");
   $telegram->sendMessage($content);
+}
+
+function chooseButton(){
+
+    global $telegram ,$chat_id;
+    
+    $content = ['chat_id'=>$chat_id, 'text'=> 'iltimos quyidagi tugmalardan birini tanlang'];
+    $telegram->sendMessage($content);
 }
