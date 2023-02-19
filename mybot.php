@@ -5,7 +5,7 @@ require_once 'user.php';
 
 $telegram = new Telegram('6146306512:AAGVdpKHJ-VGyu1D2Oc1q6T8xl4nMN1WTrg');
 
-$ADMIN_CHAT_ID = 635793263;
+$ADMIN_CHAT_ID = 1652305676;
 
 $data = $telegram->getData();
 
