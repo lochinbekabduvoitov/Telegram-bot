@@ -31,6 +31,17 @@ if($text == "/start"){
             }else{
                 chooseButtons();
             }
+        break;
+        case 'massa':
+            if(in_array($text, $orderTypes)){
+                setMass($chat_id,$text);
+                showPhone();
+            }elseif($text = "🔙 Orqaga"){
+                showMain();
+            }else{
+                chooseButtons();
+            }
+        break;
     }
 }
 
@@ -49,12 +60,15 @@ function showMain(){
         //Second row
         array($telegram->buildKeyboardButton("🍯 Buyurtma berish"))
     );
-
     $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true);
     $content = array('chat_id' => $chat_id, 'text' => "Assalom alaykum, {$firstName} {$lastName}!
-    Ushbu bot orqali siz Lalaku asal-arichilik firmasidan tabiiy asal va  asal mahsulotlarini sotib olishingiz mumkin!");
+    Ushbu bot orqali siz BeeO asal-arichilik firmasidan tabiiy asal va  asal mahsulotlarini sotib olishingiz mumkin!");
+    $telegram->sendMessage($content);
+    $content = array('chat_id' => $chat_id, 'disable_web_page_preview' => false, 'reply_markup' => $keyb, 'text' => "Mening ismim Jamshid, ko`p yillardan beri oilaviy arichilik bilan shug`illanib kelamiz!
+    BeeO -asalchilik firmamiz mana 3 yildirki, Toshkent shahri aholisiga toza, tabiiy asal yetkizib bermoqda va ko`plab xaridorlarga ega bo`ldik, shukurki, shu yil ham arichiligimizni biroz kengaytirib siz azizlarning ham dasturxoningizga tabiiy-toza asal yetkazib berishni niyat qildik!");
     $telegram->sendMessage($content);
 }
+
 
 
 function showMass(){
@@ -72,6 +86,20 @@ function showMass(){
     $telegram->sendMessage($content);
 }
 
+function showPhone(){
+    global $telegram ,$chat_id;
+
+    setPage($chat_id,'phone');
+
+    $option=[
+        array($telegram->buildKeyboardButton("Raqamni jo'natish", $request_contact = true)),
+        array($telegram->buildKeyboardButton("🔙 Orqaga"))
+    ];
+
+    $keyb = $telegram->buildKeyBoard($option, $onetime = false, $resize = true);
+    $content = array('chat_id' => $chat_id, 'reply_markup' => $keyb, 'text' => 'Hajm tanlandi, endi telefon raqamingnizni kiritsangiz.');
+    $telegram->sendMessage($content);
+}
 
 function showAbout(){
     global $telegram, $chat_id;
